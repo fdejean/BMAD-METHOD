@@ -1,0 +1,27 @@
+name: github-issue-sync
+description: "Update GitHub issues for a story and its tasks based on story status."
+author: "Custom"
+
+# Config sources
+bmm_config: "{project-root}/_bmad/bmm/config.yaml"
+bmcp_config: "{project-root}/_bmad/bmcp/config.yaml"
+
+user_name: "{bmm_config}:user_name"
+communication_language: "{bmm_config}:communication_language"
+implementation_artifacts: "{bmm_config}:implementation_artifacts"
+date: system-generated
+
+github_repo: "{bmcp_config}:github_repo"
+issue_label_prefix: "{bmcp_config}:issue_label_prefix"
+
+# Workflow components
+installed_path: "{project-root}/_bmad/bmcp/workflows/github-issue-sync"
+instructions: "{installed_path}/instructions.md"
+
+variables:
+  story_key: "" # Required
+  story_file: "" # Optional
+  issue_map_file: "{implementation_artifacts}/github-issue-map.md"
+
+standalone: true
+web_bundle: false

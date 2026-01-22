@@ -1,0 +1,25 @@
+name: story-implementation-plan
+description: "SM workflow to create a detailed implementation plan per story for offloading."
+author: "Custom"
+
+# Config sources
+bmm_config: "{project-root}/_bmad/bmm/config.yaml"
+
+user_name: "{bmm_config}:user_name"
+communication_language: "{bmm_config}:communication_language"
+implementation_artifacts: "{bmm_config}:implementation_artifacts"
+date: system-generated
+
+# Workflow components
+installed_path: "{project-root}/_bmad/bmcp/workflows/story-implementation-plan"
+instructions: "{installed_path}/instructions.md"
+
+variables:
+  story_file: "" # Explicit story path; ask user if empty
+  story_key: "" # Use story key from file name or ask user
+  plan_dir: "{implementation_artifacts}/story-plans"
+
+default_output_file: "{implementation_artifacts}/story-plans/{{story_key}}-plan.md"
+
+standalone: true
+web_bundle: false

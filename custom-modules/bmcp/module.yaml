@@ -1,0 +1,32 @@
+code: bmcp
+name: "BMad MCP Extension"
+description: "Sync epics/stories to GitHub, generate task issues, offload via MCP"
+default_selected: false
+
+# Module-specific configuration
+github_repo:
+  prompt: "GitHub repo for issues (owner/name)"
+  default: ""
+  result: "{value}"
+
+github_project_number:
+  prompt: "GitHub Project number (optional, leave blank if unused)"
+  default: ""
+  result: "{value}"
+
+issue_label_prefix:
+  prompt: "Label prefix for created issues (optional)"
+  default: "bmad"
+  result: "{value}"
+
+offload_provider:
+  prompt: "Preferred MCP offload provider"
+  default: "auto"
+  result: "{value}"
+  single-select:
+    - value: "auto"
+      label: "Auto - use Jules if available, otherwise Codex"
+    - value: "jules"
+      label: "Jules MCP"
+    - value: "codex"
+      label: "Codex MCP"

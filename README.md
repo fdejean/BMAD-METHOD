@@ -48,6 +48,73 @@ This analyzes your project and recommends a track:
 | **BMad Builder (BMB)**                | Create custom agents and domain-specific modules         |
 | **Creative Intelligence Suite (CIS)** | Innovation, brainstorming, and problem-solving           |
 
+## Using the BMCP Extension (This Fork)
+
+This fork adds a custom module at `custom-modules/bmcp` that:
+- Auto-chains `create-story` → implementation plan → GitHub issue creation → offload
+- Requires confirmation before creating issues/offloading
+- Keeps plans and stories consistent via a Story Snapshot check
+
+### Install in a New Repo
+
+1. Install base BMad:
+
+```bash
+npx bmad-method@alpha install
+```
+
+2. Copy the custom module into your new repo:
+
+```
+<new-repo>/custom-modules/bmcp
+```
+
+3. Run the installer and choose **Install Custom Module**, pointing to:
+
+```
+<new-repo>/custom-modules/bmcp
+```
+
+4. Rebuild agents (required after custom modules/customizations):
+
+```bash
+npx bmad-method@alpha install
+```
+
+### What Changes in the Workflow
+
+When you run `create-story` (SM agent), it now:
+1. Creates the story file
+2. Generates a detailed implementation plan
+3. Prompts for confirmation
+4. Creates GitHub issues and offloads tasks (if approved)
+
+When you run `dev-story`, it now:
+1. Implements the story as usual
+2. Prompts to sync GitHub issues (story + task issues) after completion
+
+### GitHub Issue Structure (Parent/Child)
+
+The orchestrator now creates hierarchical issues:
+- Epic issue → sub-issues for each Story
+- Story issue → sub-issues for each Task
+
+It uses GitHub MCP `sub_issue_write` for parent/child linking and also embeds task lists in issue bodies for visibility.
+
+### Known Sync Loopholes (How Issues Can Drift)
+
+- If MCP tools are misconfigured or unavailable, issue creation/sync halts and leaves partial state.
+- If `github-issue-map.md` is deleted or edited, `dev-story` cannot sync issues reliably.
+- Re-running `mcp-issue-orchestrator` without cleanup can create duplicate issues.
+- Manual edits to issue titles or story keys break the story/task mapping.
+- If the story changes after the plan is generated, tasks can become stale (the workflow halts on mismatch).
+- If `sub_issue_write` fails, parent/child links may be missing even if issues exist.
+- If users close or modify issues manually, the sync step may not reflect intent.
+
+Docs:
+- [Install Custom Modules](https://docs.bmad-method.org/how-to/installation/install-custom-modules/)
+- [Agent Customization Guide](https://docs.bmad-method.org/how-to/customization/customize-agents/)
+
 ## Documentation
 
 **[Full Documentation](http://docs.bmad-method.org)** — Tutorials, how-to guides, concepts, and reference
